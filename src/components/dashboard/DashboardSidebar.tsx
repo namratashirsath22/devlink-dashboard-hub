@@ -1,4 +1,5 @@
 import { Home, Bookmark, Bell, User, Settings, Hash, Sparkles, Users } from 'lucide-react';
+import { NavLink } from '@/components/NavLink';
 import {
   Sidebar,
   SidebarContent,
@@ -15,17 +16,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
 const mainNavItems = [
-  { title: 'Feed', icon: Home, active: true },
-  { title: 'Explore', icon: Hash },
-  { title: 'Saved', icon: Bookmark },
-  { title: 'Notifications', icon: Bell, badge: 3 },
-  { title: 'AI Insights', icon: Sparkles },
-  { title: 'Following', icon: Users },
+  { title: 'Feed', icon: Home, path: '/' },
+  { title: 'Explore', icon: Hash, path: '/explore' },
+  { title: 'Saved', icon: Bookmark, path: '/saved' },
+  { title: 'Notifications', icon: Bell, path: '/notifications', badge: 3 },
+  { title: 'AI Insights', icon: Sparkles, path: '/ai-insights' },
+  { title: 'Following', icon: Users, path: '/following' },
 ];
 
 const accountItems = [
-  { title: 'Profile', icon: User },
-  { title: 'Settings', icon: Settings },
+  { title: 'Profile', icon: User, path: '/profile' },
+  { title: 'Settings', icon: Settings, path: '/settings' },
 ];
 
 export function DashboardSidebar() {
@@ -50,16 +51,20 @@ export function DashboardSidebar() {
             <SidebarMenu>
               {mainNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    className={`gap-3 ${item.active ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}
-                  >
-                    <item.icon className="h-5 w-5" />
-                    <span className="flex-1">{item.title}</span>
-                    {item.badge && (
-                      <Badge variant="default" className="h-5 min-w-5 px-1.5 text-xs">
-                        {item.badge}
-                      </Badge>
-                    )}
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.path}
+                      className="gap-3"
+                      activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                    >
+                      <item.icon className="h-5 w-5" />
+                      <span className="flex-1">{item.title}</span>
+                      {item.badge && (
+                        <Badge variant="default" className="h-5 min-w-5 px-1.5 text-xs">
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -73,9 +78,15 @@ export function DashboardSidebar() {
             <SidebarMenu>
               {accountItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton className="gap-3">
-                    <item.icon className="h-5 w-5" />
-                    <span>{item.title}</span>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.path}
+                      className="gap-3"
+                      activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                    >
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.title}</span>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
